@@ -103,3 +103,27 @@ effective_study_n = normalize(effective_study)
 # for i in 1:5
 #     println((effective_study[i], hours_slept[i], distractions[i], scores[i]))
 # end
+
+
+# Part 1-4: Structuring Data for ML (X and y)
+
+# Combine features into matrix X
+X = hcat(
+    hours_studied_n,
+    hours_slept_n,
+    distractions_n,
+    effective_study_n
+)
+println("Size of X: ", size(X))
+
+y = scores_n
+println("Size of y: ", size(y))
+
+println()
+println("First sample (X): ", X[1, :])
+println("First target (y): ", y[1])
+
+println()
+for i in 1:5
+    println(X[i, :])
+end

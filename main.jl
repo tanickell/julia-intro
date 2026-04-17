@@ -74,6 +74,32 @@ scores = scores[good_mask]
 println()
 println("Cleaned dataset size: ", length(scores))
 
+println()
 for i in 1:5
     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
 end
+
+
+# Part 1-3: Data Transformation (Feature Engineering)
+
+# Normalize Function
+function normalize(x)
+    return (x .- minimum(x)) ./ (maximum(x) - minimum(x))
+end
+
+# Apply normalization
+hours_studied_n = normalize(hours_studied)
+hours_slept_n = normalize(hours_slept)
+distractions_n = normalize(distractions)
+scores_n = normalize(scores)
+
+println()
+println("Hours studied (min, max): ", minimum(hours_studied_n), ", ", maximum(hours_studied_n))
+
+effective_study = hours_studied .- (0.5 .* distractions)
+effective_study_n = normalize(effective_study)
+
+# println()
+# for i in 1:5
+#     println((effective_study[i], hours_slept[i], distractions[i], scores[i]))
+# end

@@ -6,6 +6,8 @@
 
 # main.jl
 
+using Statistics
+using LinearAlgebra
 
 # Phase 1 - Part 1
 
@@ -44,7 +46,7 @@ scores[20] = 999
 
 
 # Now, find the bad data (indices of bad data)
-bad_indices = []
+bad_indices = Int[]
 
 for i in 1:n
     if hours_studied[i] == -1 ||  # missing value
@@ -127,3 +129,45 @@ println()
 for i in 1:5
     println(X[i, :])
 end
+
+
+# Part 1-5: A First "Model-Like" Computation
+
+# Number of features
+num_features = size(X, 2)
+
+# Random weights
+weights = rand(num_features)
+
+println()
+println("Weights: ", weights)
+
+# Predictions
+y_pred = X * weights
+
+println()
+println("First 5 normalized y:")
+println(y[1:5])
+
+println()
+println("First 5 predictions:")
+println(y_pred[1:5])
+
+# Compare to actual values
+println()
+println("Actual vs Predicted (first 5):")
+for i in 1:5
+    println("y: ", y[i], " | y_pred: ", y_pred[i])
+end
+
+#Mean Squared Error (MSE)
+mse = mean((y_pred .- y) .^ 2)
+
+println()
+println("MSE: ", mse)
+
+
+# Quick troubleshoot / sanity check
+println(X[1, :])
+println(weights)
+println(dot(X[1, :], weights))

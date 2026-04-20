@@ -171,3 +171,16 @@ println("MSE: ", mse)
 println(X[1, :])
 println(weights)
 println(dot(X[1, :], weights))
+
+
+
+### PHASE 2 ###
+
+# Part 2-1: Vectors and Math
+
+v = [1.0, 2.0, 3.0]
+w = [4.0, 5.0, 6.0]
+
+println("v: ", v)
+println("w: ", w)
+

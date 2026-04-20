@@ -58,3 +58,46 @@ x_small = [1.0 2.0;
 w_small = [0.5, 1.0]
 
 println("x_small * w_small = ", x_small * w_small)
+
+
+# Part 2-4: Vectoization vs Loops
+println("\n\nPart 2-4:")
+println("\nPredictions using a loop:")
+
+y_pred_loop = zeros(length(y))
+
+for i in 1:length(y)
+    y_pred_loop[i] = dot(X[i, :], weights)
+end
+
+println(y_pred_loop[1:5])
+
+
+println("\nPredictions using vectorization:")
+
+y_pred_vec = X * weights
+
+println(y_pred_vec[1:5])
+
+
+println("\nDifference between methods:")
+println(round(maximum(abs.(y_pred_loop .- y_pred_vec)))) # should return 0.0
+
+
+# Final Practice Exercise: Loop to vectorization
+z = zeros(length(v))
+for i in 1:length(v)
+    z[i] = v[i]^2
+end
+
+println("\nz using loop:")
+for i in 1:length(z)
+    println(z[i])
+end
+
+z = v .^ 2
+println("\nz using vectorization:")
+for i in 1:length(z)
+    println(z[i])
+end
+

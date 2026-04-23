@@ -9,6 +9,12 @@
 using Statistics
 using LinearAlgebra
 
+
+
+### PHASE 1 ###
+
+
+
 # Phase 1 - Part 1
 
 # Number of samples
@@ -171,4 +177,28 @@ println("MSE: ", mse)
 println(X[1, :])
 println(weights)
 println(dot(X[1, :], weights))
+
+
+
+
+### PHASE 3 ###
+
+
+# Part 3-1: What Does It Mean to "Learn?"
+
+# Prediction Function
+function predict(X, weights)
+    return X * weights
+end
+
+# Loss Function
+function mse_loss(Y_pred, y)
+    return mean((y_pred - y) .^ 2)
+end
+
+y_pred = predict(X, weights)
+loss = mse_loss(y_pred, y)
+
+println()
+println("\nInitial loss: ", loss)
 

@@ -16,6 +16,7 @@ using LinearAlgebra
 
 
 # Phase 1 - Part 1
+println("\n\nPart 1-1:")
 
 # Number of samples
 n = 100
@@ -32,11 +33,14 @@ scores = (10 .* hours_studied) .+ (3 .* hours_slept) .- (2 .* distractions) .+
     rand(-5:5, n)
 
 # Print first 5 samples
+println()
 for i in 1:5
     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
 end
 
+
 # Phase 1 - Part 2
+println("\n\nPart 1-2:")
 
 # Introduce intentionally bad data
 
@@ -89,6 +93,7 @@ end
 
 
 # Part 1-3: Data Transformation (Feature Engineering)
+println("\n\nPart 1-3:")
 
 # Normalize Function
 function normalize(x)
@@ -114,6 +119,7 @@ effective_study_n = normalize(effective_study)
 
 
 # Part 1-4: Structuring Data for ML (X and y)
+println("\n\nPart 1-4:")
 
 # Combine features into matrix X
 X = hcat(
@@ -122,6 +128,8 @@ X = hcat(
     distractions_n,
     effective_study_n
 )
+
+println()
 println("Size of X: ", size(X))
 
 y = scores_n
@@ -185,6 +193,7 @@ println(dot(X[1, :], weights))
 
 
 # Part 3-1: What Does It Mean to "Learn?"
+println("\n\nPart 3-1:")
 
 # Prediction Function
 function predict(X, weights)
@@ -205,6 +214,7 @@ println("\nInitial loss: ", loss)
 
 
 # Part 3-2: Gradient Descent (Intuition --> Implementation)
+println("\n\nPart 3-2:")
 
 # a. implement gradient function
 function compute_gradient(X, y, weights)
@@ -254,11 +264,12 @@ println(  "Loss after:  ", loss_new)
 
 
 # Part 3-3: Training Loop (Learning over Time)
+println("\n\nPart 3-3:")
 
 # Reinitialize weights (fresh start for training)
 weights = rand(num_features)
-learning_rate = 0.01 # 0.1
-num_epochs = 20000 # 50
+learning_rate = 0.1 # 0.01
+num_epochs = 200 # 50 # 20000
 
 println()
 println("\nTraining...")
@@ -294,3 +305,25 @@ final_loss = mse_loss(y_pred_final, y)
 println("\nFinal loss: ", final_loss)
 
 
+# Part 3-4: Interpreting What the Model Learned
+println("\n\nPart 3-4:")
+
+println("\nFinal learned weights:")
+feature_names = [
+    "hours_studied",
+    "hours_slept",
+    "distractions",
+    "effective_study"
+]
+
+for i in 1:length(weights)
+    println(feature_names[i], ": ", weights[i])
+end
+
+# rank feature importance
+println("\nFeature importance (by absolute weight):")
+
+for (name, w) in sort(collect(zip(feature_names, weights)),
+    by = x -> abs(x[2]), rev=true)
+    println(name, ": ", w)
+end

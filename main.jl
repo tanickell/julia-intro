@@ -8,10 +8,13 @@
 using Statistics
 using LinearAlgebra
 
+
 ### PHASE 1 ###
 
-# Phase 1 - Part 1
-println("Part 1-1: Generate Data")
+# -----------------------------
+# Part 1-1. Generate Data
+# -----------------------------
+# println("Part 1-1: Generate Data")
 
 # Number of samples
 n = 100
@@ -28,13 +31,15 @@ scores = (10 .* hours_studied) .+ # original = 5
          rand(-5:5, n)
 
 # Print first 5 samples
-println()
-for i in 1:5
-    println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
-end
+# println()
+# for i in 1:5
+#     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
+# end
 
-# Phase 1 - Part 2
-println("\n\nPart 1-2: Corrupt Data")
+# -----------------------------
+# Part 1-2. Corrupt Data
+# -----------------------------
+# println("\n\nPart 1-2: Corrupt Data")
 
 # Introduce intentionally bad data
 
@@ -47,6 +52,11 @@ hours_slept[15] = -3
 
 # Outlier (unrealistic score)
 scores[20] = 999
+
+# -----------------------------
+# Part 1-3. Clean Data
+# -----------------------------
+# println("\n\nPart 1-3: Clean Data")
 
 # Now, find the bad data (indices of bad data)
 bad_indices = Int[]
@@ -61,8 +71,8 @@ for i in 1:n
     end
 end
 
-println()
-println("Bad data indices: ", bad_indices)
+# println()
+# println("Bad data indices: ", bad_indices)
 
 # keep only good data
 good_mask = trues(n)
@@ -76,16 +86,18 @@ hours_slept = hours_slept[good_mask]
 distractions = distractions[good_mask]
 scores = scores[good_mask]
 
-println()
-println("Cleaned dataset size: ", length(scores))
+# println()
+# println("Cleaned dataset size: ", length(scores))
 
-println()
-for i in 1:5
-    println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
-end
+# println()
+# for i in 1:5
+#     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
+# end
 
-# Part 1-3: Data Transformation (Feature Engineering)
-println("\n\nPart 1-3:")
+# -----------------------------
+# Part 1-4. Data Transformation (Normalizing)
+# -----------------------------
+# println("\n\nPart 1-4: Normalize")
 
 # Normalize Function
 function normalize(x)
@@ -98,9 +110,13 @@ hours_slept_n = normalize(hours_slept)
 distractions_n = normalize(distractions)
 scores_n = normalize(scores)
 
-println()
-println("Hours studied (min, max): ", minimum(hours_studied_n), ", ", maximum(hours_studied_n))
+# println()
+# println("Hours studied (min, max): ", minimum(hours_studied_n), ", ", maximum(hours_studied_n))
 
+# -----------------------------
+# Part 1-5. Data Transformation (Feature Engineering)
+# -----------------------------
+# println("\n\nPart 1-5:")
 effective_study = hours_studied .- (0.5 .* distractions)
 effective_study_n = normalize(effective_study)
 
@@ -109,8 +125,10 @@ effective_study_n = normalize(effective_study)
 #     println((effective_study[i], hours_slept[i], distractions[i], scores[i]))
 # end
 
-# Part 1-4: Structuring Data for ML (X and y)
-println("\n\nPart 1-4:")
+# -----------------------------
+# Part 1-6: Build Dataset (Structuring Data for ML (X and y))
+# -----------------------------
+# println("\n\nPart 1-6:")
 
 # Combine features into matrix X
 X = hcat(
@@ -120,21 +138,21 @@ X = hcat(
     effective_study_n
 )
 
-println()
-println("Size of X: ", size(X))
+# println()
+# println("Size of X: ", size(X))
 
 y = scores_n
-println("Size of y: ", size(y))
+# println("Size of y: ", size(y))
 
-println()
-println("First sample (X): ", X[1, :])
-println("First target (y): ", y[1])
+# println()
+# println("First sample (X): ", X[1, :])
+# println("First target (y): ", y[1])
 
-println()
-println("X (First 5 samples):")
-for i in 1:5
-    println(X[i, :])
-end
+# println()
+# println("X (First 5 samples):")
+# for i in 1:5
+#     println(X[i, :])
+# end
 
 # Part 1-5: A First "Model-Like" Computation
 
@@ -144,42 +162,45 @@ num_features = size(X, 2)
 # Random weights
 weights = rand(num_features)
 
-println()
-println("Weights: ", weights)
+# println()
+# println("Weights: ", weights)
 
 # Predictions
 y_pred = X * weights
 
-println()
-println("First 5 normalized y:")
-println(y[1:5])
+# println()
+# println("First 5 normalized y:")
+# println(y[1:5])
 
-println()
-println("First 5 predictions:")
-println(y_pred[1:5])
+# println()
+# println("First 5 predictions:")
+# println(y_pred[1:5])
 
 # Compare to actual values
-println()
-println("Actual vs Predicted (first 5):")
-for i in 1:5
-    println("y: ", y[i], " | y_pred: ", y_pred[i])
-end
+# println()
+# println("Actual vs Predicted (first 5):")
+# for i in 1:5
+#     println("y: ", y[i], " | y_pred: ", y_pred[i])
+# end
 
-#Mean Squared Error (MSE)
-mse = mean((y_pred .- y) .^ 2)
+# Mean Squared Error (MSE)
+# mse = mean((y_pred .- y) .^ 2)
 
-println()
-println("MSE: ", mse)
+# println()
+# println("MSE: ", mse)
 
 # Quick troubleshoot / sanity check
-println(X[1, :])
-println(weights)
-println(dot(X[1, :], weights))
+# println(X[1, :])
+# println(weights)
+# println(dot(X[1, :], weights))
+
 
 ### PHASE 3 ###
 
-# Part 3-1: What Does It Mean to "Learn?"
-println("\n\nPart 3-1:")
+# -----------------------------
+# Part 3-1: Model Functions (What Does It Mean to "Learn?")
+# -----------------------------
+# println("\n\nPart 3-1:")
 
 # Prediction Function
 function predict(X, weights)
@@ -194,11 +215,13 @@ end
 y_pred = predict(X, weights)
 loss = mse_loss(y_pred, y)
 
-println()
-println("\nInitial loss: ", loss)
+# println()
+# println("\nInitial loss: ", loss)
 
-# Part 3-2: Gradient Descent (Intuition --> Implementation)
-println("\n\nPart 3-2:")
+# -----------------------------
+# Part 3-2: Gradient Descent (Intuition -> Implementation)
+# -----------------------------
+# println("\n\nPart 3-2:")
 
 # a. implement gradient function
 function compute_gradient(X, y, weights)
@@ -213,9 +236,9 @@ learning_rate = 0.1 # try learning_rate = 0.01 if loss goes up
 grad = compute_gradient(X, y, weights)
 weights_new = weights .- learning_rate .* grad
 
-println()
-println("Old weights: ", weights)
-println("New weights: ", weights_new)
+# println()
+# println("Old weights: ", weights)
+# println("New weights: ", weights_new)
 
 # c. check if loss improves
 y_pred_old = predict(X, weights)
@@ -224,19 +247,21 @@ loss_old = mse_loss(y_pred_old, y)
 y_pred_new = predict(X, weights_new)
 loss_new = mse_loss(y_pred_new, y)
 
-println("\nLoss before: ", loss_old)
-println(  "Loss after:  ", loss_new)
+# println("\nLoss before: ", loss_old)
+# println(  "Loss after:  ", loss_new)
 
-# Part 3-3: Training Loop (Learning over Time)
-println("\n\nPart 3-3:")
+# -----------------------------
+# Part 3-3: Train Model - Training Loop (Learning Over Time)
+# -----------------------------
+# println("\n\nPart 3-3:")
 
 # Reinitialize weights (fresh start for training)
 weights = rand(num_features)
 learning_rate = 0.1 # 0.01
 num_epochs = 200 # 50 # 20000
 
-println()
-println("\nTraining...")
+# println()
+# println("\nTraining...")
 
 for epoch in 1:num_epochs
 
@@ -253,11 +278,14 @@ for epoch in 1:num_epochs
     global weights = weights .- learning_rate .* grad
 
     # Print Progress
-    if epoch % 10 == 0
-        println("Epoch ", epoch, " | Loss: ", loss)
-    end
+    # if epoch % 10 == 0
+    #     println("Epoch ", epoch, " | Loss: ", loss)
+    # end
 end
 
+# -----------------------------
+# Part 3-4: Final Evaluation
+# -----------------------------
 println("\nFinal evaulation:")
 y_pred_final = predict(X, weights)
 
@@ -268,9 +296,8 @@ end
 final_loss = mse_loss(y_pred_final, y)
 println("\nFinal loss: ", final_loss)
 
-
 # Part 3-4: Interpreting What the Model Learned
-println("\n\nPart 3-4:")
+# println("\n\nPart 3-4:")
 
 println("\nFinal learned weights:")
 feature_names = [

@@ -1,22 +1,17 @@
-# Student Test Score Modeler
+# Julia-Intro: Student Test Score Modeler
 # Predict student scores based on multiple factors
+# main.jl
 
 # Tim Nickell  |  Nebula-NLU  |  tim.nickell@nebula-nlu.com
 # 2026-04-16
 
-# main.jl
-
 using Statistics
 using LinearAlgebra
 
-
-
 ### PHASE 1 ###
 
-
-
 # Phase 1 - Part 1
-println("\n\nPart 1-1:")
+println("Part 1-1: Generate Data")
 
 # Number of samples
 n = 100
@@ -27,10 +22,10 @@ hours_slept   = rand(4:10, n)
 distractions  = rand(0:10, n) 
 
 # Generate scores (with some randomness)
-# scores = (5 .* hours_studied) .+ (3 .* hours_slept) .- (2 .* distractions) .+ 
-#     rand(-5:5, n)
-scores = (10 .* hours_studied) .+ (3 .* hours_slept) .- (2 .* distractions) .+ 
-    rand(-5:5, n)
+scores = (10 .* hours_studied) .+ # original = 5
+         (3 .* hours_slept) .- 
+         (2 .* distractions) .+ 
+         rand(-5:5, n)
 
 # Print first 5 samples
 println()
@@ -38,9 +33,8 @@ for i in 1:5
     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
 end
 
-
 # Phase 1 - Part 2
-println("\n\nPart 1-2:")
+println("\n\nPart 1-2: Corrupt Data")
 
 # Introduce intentionally bad data
 
@@ -53,7 +47,6 @@ hours_slept[15] = -3
 
 # Outlier (unrealistic score)
 scores[20] = 999
-
 
 # Now, find the bad data (indices of bad data)
 bad_indices = Int[]
@@ -91,7 +84,6 @@ for i in 1:5
     println((hours_studied[i], hours_slept[i], distractions[i], scores[i]))
 end
 
-
 # Part 1-3: Data Transformation (Feature Engineering)
 println("\n\nPart 1-3:")
 
@@ -117,7 +109,6 @@ effective_study_n = normalize(effective_study)
 #     println((effective_study[i], hours_slept[i], distractions[i], scores[i]))
 # end
 
-
 # Part 1-4: Structuring Data for ML (X and y)
 println("\n\nPart 1-4:")
 
@@ -140,10 +131,10 @@ println("First sample (X): ", X[1, :])
 println("First target (y): ", y[1])
 
 println()
+println("X (First 5 samples):")
 for i in 1:5
     println(X[i, :])
 end
-
 
 # Part 1-5: A First "Model-Like" Computation
 
@@ -180,17 +171,12 @@ mse = mean((y_pred .- y) .^ 2)
 println()
 println("MSE: ", mse)
 
-
 # Quick troubleshoot / sanity check
 println(X[1, :])
 println(weights)
 println(dot(X[1, :], weights))
 
-
-
-
 ### PHASE 3 ###
-
 
 # Part 3-1: What Does It Mean to "Learn?"
 println("\n\nPart 3-1:")
@@ -210,8 +196,6 @@ loss = mse_loss(y_pred, y)
 
 println()
 println("\nInitial loss: ", loss)
-
-
 
 # Part 3-2: Gradient Descent (Intuition --> Implementation)
 println("\n\nPart 3-2:")
@@ -242,7 +226,6 @@ loss_new = mse_loss(y_pred_new, y)
 
 println("\nLoss before: ", loss_old)
 println(  "Loss after:  ", loss_new)
-
 
 # Part 3-3: Training Loop (Learning over Time)
 println("\n\nPart 3-3:")

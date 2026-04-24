@@ -253,3 +253,44 @@ println(  "Loss after:  ", loss_new)
 # println(  "Loss after:  ", loss_new)
 
 
+# Part 3-3: Training Loop (Learning over Time)
+
+# Reinitialize weights (fresh start for training)
+weights = rand(num_features)
+learning_rate = 0.01 # 0.1
+num_epochs = 20000 # 50
+
+println()
+println("\nTraining...")
+
+for epoch in 1:num_epochs
+
+    # Predictions
+    global y_pred = predict(X, weights)
+
+    # Loss
+    global loss = mse_loss(y_pred, y)
+
+    # Gradient
+    global grad = compute_gradient(X, y, weights)
+
+    # Update Weights
+    global weights = weights .- learning_rate .* grad
+
+    # Print Progress
+    if epoch % 10 == 0
+        println("Epoch ", epoch, " | Loss: ", loss)
+    end
+end
+
+println("\nFinal evaulation:")
+y_pred_final = predict(X, weights)
+
+for i in 1:5
+    println("y: ", y[i], " | y_pred: ", y_pred_final[i])
+end
+
+final_loss = mse_loss(y_pred_final, y)
+println("\nFinal loss: ", final_loss)
+
+

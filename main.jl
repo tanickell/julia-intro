@@ -192,7 +192,7 @@ function predict(X, weights)
 end
 
 # Loss Function
-function mse_loss(Y_pred, y)
+function mse_loss(y_pred, y)
     return mean((y_pred - y) .^ 2)
 end
 
@@ -201,4 +201,55 @@ loss = mse_loss(y_pred, y)
 
 println()
 println("\nInitial loss: ", loss)
+
+
+
+# Part 3-2: Gradient Descent (Intuition --> Implementation)
+
+# a. implement gradient function
+function compute_gradient(X, y, weights)
+    n = length(y)
+    y_pred = X * weights
+    return ( (2 / n) * (transpose(X) * (y_pred - y)) )
+end
+
+# b. update weights once
+learning_rate = 0.1
+
+grad = compute_gradient(X, y, weights)
+weights_new = weights .- learning_rate .* grad
+
+println()
+println("Old weights: ", weights)
+println("New weights: ", weights_new)
+
+# c. check if loss improves
+y_pred_old = predict(X, weights)
+loss_old = mse_loss(y_pred_old, y)
+
+y_pred_new = predict(X, weights_new)
+loss_new = mse_loss(y_pred_new, y)
+
+println("\nLoss before: ", loss_old)
+println(  "Loss after:  ", loss_new)
+
+
+# try learning_rate = 0.01 if loss goes up
+# learning_rate = 0.01
+# grad = compute_gradient(X, y, weights)
+# weights_new = weights .- learning_rate .* grad
+
+# println()
+# println("Old weights: ", weights)
+# println("New weights: ", weights_new)
+
+# y_pred_old = predict(X, weights)
+# loss_old = mse_loss(y_pred_old, y)
+
+# y_pred_new = predict(X, weights_new)
+# loss_new = mse_loss(y_pred_new, y)
+
+# println("\nLoss before: ", loss_old)
+# println(  "Loss after:  ", loss_new)
+
 

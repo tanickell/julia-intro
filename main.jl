@@ -224,7 +224,7 @@ function compute_gradient(X, y, weights)
 end
 
 # b. update weights once
-learning_rate = 0.1
+learning_rate = 0.1 # try learning_rate = 0.01 if loss goes up
 
 grad = compute_gradient(X, y, weights)
 weights_new = weights .- learning_rate .* grad
@@ -242,25 +242,6 @@ loss_new = mse_loss(y_pred_new, y)
 
 println("\nLoss before: ", loss_old)
 println(  "Loss after:  ", loss_new)
-
-
-# try learning_rate = 0.01 if loss goes up
-# learning_rate = 0.01
-# grad = compute_gradient(X, y, weights)
-# weights_new = weights .- learning_rate .* grad
-
-# println()
-# println("Old weights: ", weights)
-# println("New weights: ", weights_new)
-
-# y_pred_old = predict(X, weights)
-# loss_old = mse_loss(y_pred_old, y)
-
-# y_pred_new = predict(X, weights_new)
-# loss_new = mse_loss(y_pred_new, y)
-
-# println("\nLoss before: ", loss_old)
-# println(  "Loss after:  ", loss_new)
 
 
 # Part 3-3: Training Loop (Learning over Time)
